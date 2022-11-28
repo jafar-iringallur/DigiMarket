@@ -18,9 +18,15 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+Route::get('/getting-started', function () {
+    return view('getting_started');
+});
 
 Auth::routes();
-
+Route::get('logout', function(){
+    Auth::logout();
+    return redirect('/login');
+});
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
  
 Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $request) {
