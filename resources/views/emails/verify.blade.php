@@ -3,7 +3,7 @@
   
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <title>Coinbase</title>
+    <title>Botire Digital Solutions</title>
   </head>
   
   <body leftmargin="0" marginwidth="0" topmargin="0" marginheight="0" offset="0"
@@ -27,9 +27,9 @@
                         </tr>
                         <tr>
                           <td valign="top" align="center">
-                            <a href="https://www.coinbase.com" style="display:inline-block; cursor:pointer; text-align:center;">
-                              <img src="https://s3.amazonaws.com/app-public/Coinbase-email/coinbase_logo_blue@2x.png"
-                              height="24" width="104" border="0" alt="Coinbase">
+                            <a href="https://www.botire.in" style="display:inline-block; cursor:pointer; text-align:center;">
+                              <img src="https://www.botire.in/assets/img/logo.png"
+                              height="40" border="0" alt="Botire Digital Solutions">
                             </a>
                           </td>
                         </tr>
@@ -52,7 +52,7 @@
                               <tbody>
                                 <tr>
                                   <td align="center" valign="bottom" colspan="2" cellpadding="3">
-                                    <img alt="Coinbase" width="80" src="https://www.coinbase.com/assets/app/icon_email-e8c6b940e8f3ec61dcd56b60c27daed1a6f8b169d73d9e79b8999ff54092a111.png"
+                                    <img alt="Botire Digital Solutions" width="60" src="https://www.coinbase.com/assets/app/icon_email-e8c6b940e8f3ec61dcd56b60c27daed1a6f8b169d73d9e79b8999ff54092a111.png"
                                     />
                                   </td>
                                 </tr>
@@ -77,7 +77,7 @@
                                 </tr>
                                 <tr>
                                   <td align="center"> <span style="color:#48545d;font-size:14px;line-height:24px;">
-          In order to start using your Coinbase account, you need to confirm your email address.
+                                    We're happy you signed up for Botire Digital Solution. To start exploring the software, please confirm your email address.
         </span>
 
                                   </td>
@@ -87,7 +87,7 @@
                                 </tr>
                                 <tr>
                                   <td valign="top" width="48%" align="center"> <span>
-          <a href="{{$url}}" style="display:block; padding:15px 25px; background-color:#0087D1; color:#ffffff; border-radius:3px; text-decoration:none;">Verify Email Address</a>
+          <a href="{{$url}}" style="display:block; padding:15px 25px; background-color:#0087D1; color:#ffffff; border-radius:3px; text-decoration:none;">Verify Now</a>
         </span>
 
                                   </td>
@@ -128,7 +128,8 @@
                           <td colspan="2" height="20"></td>
                         </tr>
                         <tr>
-                          <td colspan="2" align="center"> <span style="font-size:14px; font-weight:500; margin-bottom:10px; color:#7E8A98; font-family: -apple-system,BlinkMacSystemFont,&#39;Segoe UI&#39;,&#39;Roboto&#39;,&#39;Oxygen&#39;,&#39;Ubuntu&#39;,&#39;Cantarell&#39;,&#39;Fira Sans&#39;,&#39;Droid Sans&#39;,&#39;Helvetica Neue&#39;,sans-serif;">Get the latest Coinbase App for your phone</span>
+                          <td colspan="2" align="center"> <span style="font-size:12px; font-weight:500; margin-bottom:10px; color:#7E8A98; font-family: -apple-system,BlinkMacSystemFont,&#39;Segoe UI&#39;,&#39;Roboto&#39;,&#39;Oxygen&#39;,&#39;Ubuntu&#39;,&#39;Cantarell&#39;,&#39;Fira Sans&#39;,&#39;Droid Sans&#39;,&#39;Helvetica Neue&#39;,sans-serif;">
+                            &copy; 2022 Botire Digital Solutions. All rights reserved.</span>
 
                           </td>
                         </tr>
