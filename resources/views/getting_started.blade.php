@@ -224,8 +224,8 @@
         <h3 class="sub-head">Verify your email</h3>
         <p style="font-size: 16px">Please click the verification button in the email we sent to <span class="text-success"> {{ auth()->user()->email }} </span>. This helps keep your account secure.
            <br><br>
-           <span style="font-size: 14px;color: #5f6771;"> No email in your inbox or spam folder? Let's resend it.<br>
-           Wrong address? Log out to sign in with a different email<br>
+           <span style="font-size: 12px;color: #5f6771;"> No email in your inbox or spam folder? Let's resend it.
+           Wrong address? Log out to sign in with a different email,
            If you mistyped your email when signing up, create a new account.</span></p>
     </div>
    </center>
