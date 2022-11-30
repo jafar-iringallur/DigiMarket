@@ -20,7 +20,7 @@ Route::get('/', function () {
 });
 Route::get('/getting-started', function () {
     return view('getting_started');
-});
+})->middleware('auth');
 
 Auth::routes();
 Route::get('logout', function(){
