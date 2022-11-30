@@ -33,7 +33,35 @@ class HomeController extends Controller
         if($status == 10){
             return redirect('/home');
         }
-        return view('getting_started',["status" => $status]);
+        $entity_type = [
+            "soleProprietor" => "Sole Proprietor",
+            "singleMemberLLC" => "Single Member LLC",
+            "limitedLiabilityCompany" => "Limited Liability Company",
+            "generalPartnership" => "General Partnership",
+            "unlistedCorporation" => "Unlisted Corporation",
+            "publiclyTradedCorporation" => "Publicly Traded Corporation",
+            "association" => "Association",
+            "nonProfit" => "Non Profit",
+            "governmentOrganization" => "Government Organization",
+            "revocableTrust" => "Revocable Trust",
+            "irrevocableTrust" => "Irrevocable Trust",
+            "estate" => "Estate"
+        ];
+        $industries = [
+            "retail" => "Retail",
+            "wholesale" => "Wholesale",
+            "restaurants" => "Restaurants",
+            "hospitals" => "Hospitals",
+            "construction" => "Construction",
+            "insurance" => "Insurance",
+            "unions" => "Unions",
+            "realEstate" => "Real Estate",
+            "freelanceProfessional" => "Freelance Professional",
+            "otherProfessionalServices" => "Other Professional Services",
+            "onlineRetailer" => "Online Retailer",
+            "otherEducationServices" => "Other Education Services",
+        ];
+        return view('getting_started',["status" => $status,"entity_types" => $entity_type,"industries" => $industries]);
 
     }
 

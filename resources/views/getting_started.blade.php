@@ -246,48 +246,82 @@
            
               <div class="form-group">
                 <label for="inputEmail4">Company Name</label>
-                <input type="text" class="form-control" id="inputEmail4" placeholder="Your Company Name">
+                <input type="text" class="form-control" id="business_name" name="business_name" placeholder="Your Company Name">
               </div>
               <div class="form-group">
                 <label for="inputPassword4">Address</label>
-                <input type="text" class="form-control" id="inputPassword4" placeholder="Company Address">
+                <input type="text" class="form-control" id="business_address_line_1" name="business_address_line_1" placeholder="Company Address">
               </div>
             <div class="form-row">
             <div class="form-group col-md-6">
               <label for="inputAddress">Place</label>
-              <input type="text" class="form-control" id="inputAddress" placeholder="Place">
+              <input type="text" class="form-control" id="business_place" name="business_place" placeholder="Place">
             </div>
             <div class="form-group col-md-6">
               <label for="inputAddress2">City</label>
-              <input type="text" class="form-control" id="inputAddress2" placeholder="City">
+              <input type="text" class="form-control" id="business_city" name="business_city" placeholder="City">
             </div>
             </div>
             <div class="form-row">
               <div class="form-group col-md-6">
                 <label for="inputCity">District</label>
-                <input type="text" class="form-control" id="inputCity">
+                <input type="text" class="form-control" id="business_district" name="business_district" placeholder="District">
               </div>
-              <div class="form-group col-md-4">
+              <div class="form-group col-md-6">
                 <label for="inputState">State</label>
-                <select id="inputState" class="form-control">
+                <select id="business_state" name="business_state" class="form-control">
                   <option selected>Choose...</option>
                   <option>...</option>
                 </select>
               </div>
-              <div class="form-group col-md-2">
-                <label for="inputZip">Zip</label>
-                <input type="text" class="form-control" id="inputZip">
-              </div>
             </div>
-            <div class="form-group">
-              <div class="form-check">
-                <input class="form-check-input" type="checkbox" id="gridCheck">
-                <label class="form-check-label" for="gridCheck">
-                  Check me out
-                </label>
-              </div>
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label for="inputCity">Zip</label>
+                    <input type="number" class="form-control" id="business_zip" name="business_zip" placeholder="Zip">
+                  </div>
+                <div class="form-group col-md-6">
+                    <label for="inputCity">Email</label>
+                    <input type="number" class="form-control" id="business_email" name="business_email" placeholder="Email">
+                  </div>
             </div>
-            <button type="submit" class="btn btn-primary">Sign in</button>
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label for="inputCity">Phone</label>
+                    <input type="number" class="form-control" id="business_phone" name="business_phone" placeholder="Phone">
+                  </div>
+                <div class="form-group col-md-6">
+                    <label for="inputCity">WhatsApp</label>
+                    <input type="number" class="form-control" id="business_whatsapp" name="business_whatsapp" placeholder="Whatsapp Number">
+                  </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                  <label for="inputCity">Entity Type</label>
+                  <select id="entity_type" name="entity_type" class="form-control">
+                    <option selected>Choose a entity</option>
+                    @foreach($entity_types as $key => $value)
+                    <option value={{$key}}>{{$value}}</option>
+                    @endforeach
+                  </select>
+                </div>
+                <div class="form-group col-md-6">
+                  <label for="inputState">Industry</label>
+                  <select id="industry_type" name="industry_type" class="form-control">
+                    <option selected>Choose a industry</option>
+                    @foreach($industries as $key => $value)
+                    <option value={{$key}}>{{$value}}</option>
+                    @endforeach
+                  </select>
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="inputPassword4">Logo</label>
+                <input type="file" class="form-control" id="business_logo" name="business_logo">
+              </div>
+         
+            <button type="submit" class="btn btn-primary">Submit</button>
           </form>
     </div>
     @else
