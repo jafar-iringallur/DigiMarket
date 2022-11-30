@@ -35,7 +35,7 @@
   overflow: hidden;
 }
 .multi_step_form #msform {
-  text-align: center;
+  
   position: relative;
   padding-top: 50px;
   min-height: 820px;
@@ -71,6 +71,7 @@
 .multi_step_form #msform .sub-head {
   font: 500 18px/35px "Roboto", sans-serif;
   color: #6100a5;
+  text-align: center;
 }
 .multi_step_form #msform fieldset h6 {
   font: 400 15px/28px "Roboto", sans-serif;
@@ -212,14 +213,24 @@
     <!-- progressbar -->
     <div class="container-fluid">
         <ul class="list-unstyled multi-steps">
+            @if($status == 1)
           <li class="is-active">Verify Email</li>
-       
           <li>Add Business Info</li>
-          <li>Add Product</li>
+          <li>Verify Business</li>
+          @elseif ($status == 2)
+          <li>Verify Email</li>
+          <li class="is-active">Add Business Info</li>
+          <li>Verify Business</li>
+          @else
+          <li>Verify Email</li>
+          <li>Add Business Info</li>
+          <li class="is-active">Verify Business</li>
+          @endif
         </ul>
       </div>
     <!-- fieldsets -->
-   <center>
+  <section class="d-flex align-items-center justify-content-center">
+    @if($status == 1)
     <div class="col-md-6 shadow p-3 mb-5 bg-white rounded" style="background-color: white">
         <h3 class="sub-head">Verify your email</h3>
         <p style="font-size: 16px">Please click the verification button in the email we sent to <span class="text-success"> {{ auth()->user()->email }} </span>. This helps keep your account secure.
@@ -228,7 +239,63 @@
            Wrong address? Log out to sign in with a different email,
            If you mistyped your email when signing up, create a new account.</span></p>
     </div>
-   </center>
+    @elseif ($status == 2)
+    <div class="col-md-8 shadow p-3 mb-5 bg-white rounded" style="background-color: white">
+        <h3 class="sub-head">Add Your Business Info</h3>
+        <form>
+           
+              <div class="form-group">
+                <label for="inputEmail4">Company Name</label>
+                <input type="text" class="form-control" id="inputEmail4" placeholder="Your Company Name">
+              </div>
+              <div class="form-group">
+                <label for="inputPassword4">Address</label>
+                <input type="text" class="form-control" id="inputPassword4" placeholder="Company Address">
+              </div>
+            <div class="form-row">
+            <div class="form-group col-md-6">
+              <label for="inputAddress">Place</label>
+              <input type="text" class="form-control" id="inputAddress" placeholder="Place">
+            </div>
+            <div class="form-group col-md-6">
+              <label for="inputAddress2">City</label>
+              <input type="text" class="form-control" id="inputAddress2" placeholder="City">
+            </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group col-md-6">
+                <label for="inputCity">District</label>
+                <input type="text" class="form-control" id="inputCity">
+              </div>
+              <div class="form-group col-md-4">
+                <label for="inputState">State</label>
+                <select id="inputState" class="form-control">
+                  <option selected>Choose...</option>
+                  <option>...</option>
+                </select>
+              </div>
+              <div class="form-group col-md-2">
+                <label for="inputZip">Zip</label>
+                <input type="text" class="form-control" id="inputZip">
+              </div>
+            </div>
+            <div class="form-group">
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" id="gridCheck">
+                <label class="form-check-label" for="gridCheck">
+                  Check me out
+                </label>
+              </div>
+            </div>
+            <button type="submit" class="btn btn-primary">Sign in</button>
+          </form>
+    </div>
+    @else
+    <div class="col-md-6 shadow p-3 mb-5 bg-white rounded" style="background-color: white">
+
+    </div>
+    @endif
+  </section>
 </div>  
 </section> 
 <!-- End Multi step form -->

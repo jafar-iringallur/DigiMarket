@@ -38,20 +38,20 @@ class LoginController extends Controller
         $this->middleware('guest')->except('logout');
     }
 
-    protected function authenticated($request, $user)
-    {
-        if ( $this->onBoardStatus($user) == 1 ) {
-            return redirect()->route('home');
-        }
+    // protected function authenticated($request, $user)
+    // {
+    //     if ( $this->onBoardStatus($user) == 1 ) {
+    //         return redirect()->route('home');
+    //     }
 
-        return redirect('/getting-started');
+    //     return redirect('/getting-started');
       
-    }
+    // }
 
-    protected function onBoardStatus($user){
-       if($user->email_verified_at == null){
-          return 0;
-       }
-       return 1;
-    }
+    // protected function onBoardStatus($user){
+    //    if($user->email_verified_at == null){
+    //       return 0;
+    //    }
+    //    return 1;
+    // }
 }
