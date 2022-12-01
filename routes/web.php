@@ -39,3 +39,4 @@ Route::group(['middleware' => ['GettingStart'],], function () {
     Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 });
 Route::get('/getting-started', [App\Http\Controllers\HomeController::class, 'gettingStartIndex'])->name('get.start.index');
+Route::get('/get-city', [App\Http\Controllers\HomeController::class, 'getCity'])->name('get.city');

@@ -263,17 +263,28 @@
             </div>
             </div>
             <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label for="inputState">State</label>
+                    <select id="business_state" name="business_state" class="form-control">
+                        @foreach($states as $state)
+                        @if($state->id == 10 )
+                        <option value={{$state->id}} selected>{{$state->name}}</option>
+                        @else
+                        <option value={{$state->id}}>{{$state->name}}</option>
+                        @endif
+                        @endforeach
+                    </select>
+                  </div>
               <div class="form-group col-md-6">
                 <label for="inputCity">District</label>
-                <input type="text" class="form-control" id="business_district" name="business_district" placeholder="District">
-              </div>
-              <div class="form-group col-md-6">
-                <label for="inputState">State</label>
-                <select id="business_state" name="business_state" class="form-control">
-                  <option selected>Choose...</option>
-                  <option>...</option>
+                <select id="business_district" name="business_district" class="form-control">
+                    <option selected>--Select a District--</option>
+                    @foreach($cities as $city)
+                    <option value={{$city->id}}>{{$city->city}}</option>
+                    @endforeach
                 </select>
               </div>
+             
             </div>
             <div class="form-row">
                 <div class="form-group col-md-6">
@@ -300,7 +311,7 @@
                 <div class="form-group col-md-6">
                   <label for="inputCity">Entity Type</label>
                   <select id="entity_type" name="entity_type" class="form-control">
-                    <option selected>Choose a entity</option>
+                    <option selected>--Choose a entity--</option>
                     @foreach($entity_types as $key => $value)
                     <option value={{$key}}>{{$value}}</option>
                     @endforeach
@@ -309,7 +320,7 @@
                 <div class="form-group col-md-6">
                   <label for="inputState">Industry</label>
                   <select id="industry_type" name="industry_type" class="form-control">
-                    <option selected>Choose a industry</option>
+                    <option selected>--Choose a industry--</option>
                     @foreach($industries as $key => $value)
                     <option value={{$key}}>{{$value}}</option>
                     @endforeach
@@ -340,7 +351,32 @@
 <script src='https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/12.1.2/js/intlTelInput.js'></script>
 <script src='https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js'></script>
 <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery-nice-select/1.1.0/js/jquery.nice-select.min.js'></script>
-   
+  <script>
+  $('#business_state').on('change', function() {
+    $("#business_district option").remove(); 
+   var state = $('#business_state').val();
+    $.ajax({
+        type: "GET",
+        url: "{{route('get.city')}}",
+        data: { state : state},
+        dataType: "json",
+        success: function(data) {
+         if(data.success){
+            $('#business_district').append($('<option/>', { 
+                    text : "--Select a district--"
+            }));
+            $.each(data.data, function (index, value) {
+                $('#business_district').append($('<option/>', { 
+                    value: value['id'],
+                    text : value['city']
+                }));
+            });     
+         }
+        }
+        });
+    });
+  
+  </script>
 
 </body>
 
