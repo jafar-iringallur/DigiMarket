@@ -193,6 +193,9 @@
 	 background-color: #ededed;
 	 border-color: #ededed;
 }
+#public_url:focus{
+    outline: none;
+}
  
 </style>
 <!-- CSS only -->
@@ -216,15 +219,15 @@
             @if($status == 1)
           <li class="is-active">Verify Email</li>
           <li>Add Business Info</li>
-          <li>Verify Business</li>
+          <li>Confirm Url</li>
           @elseif ($status == 2)
           <li>Verify Email</li>
           <li class="is-active">Add Business Info</li>
-          <li>Verify Business</li>
+          <li>Confirm Url</li>
           @else
           <li>Verify Email</li>
           <li>Add Business Info</li>
-          <li class="is-active">Verify Business</li>
+          <li class="is-active">Confirm Url</li>
           @endif
         </ul>
       </div>
@@ -336,8 +339,28 @@
           </form>
     </div>
     @else
-    <div class="col-md-6 shadow p-3 mb-5 bg-white rounded" style="background-color: white">
+    <div class="col-md-8 shadow p-3 mb-5 bg-white rounded" style="background-color: white">
+      <h3 class="sub-head">Confirm Your Public Url</h3>
+      <form>
+         
+            <div class="form-group">
+              <label for="inputEmail4">Public Url <span class="text text-success" style="font-size: 12px">Availiable</span></label>
+              <div class="row">
+                <div class="col-md-8 d-flex justify-content-between mb-2">
+                  <p class="" style="padding-left: 9px; border-color: red;margin: 0;line-height: 44px; border: 1px solid #ced4da !important;border-right: transparent !important;color: #ababb3;">{{ env('PUBLIC_URL') }}</p>
+                 
+                  <input type="text" value="{{$public_url}}" autofocus="autofocus" id="public_url" name="public_url" maxlength="26" size="50" 
+                  style=" padding-right: 23px !important;    width: 100%;border: 1px solid #ced4da !important;border-left: white !important;margin: 0 !important">
+                </div>
+                <div class="col-md-4">
+                  <button type="button" class="btn btn-primary mb-2">Confirm</button>
+                </div>
+              </div>
+       
+            
+            </div>
 
+      </form>
     </div>
     @endif
   </section>

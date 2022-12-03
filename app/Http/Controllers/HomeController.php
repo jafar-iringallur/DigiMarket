@@ -65,7 +65,8 @@ class HomeController extends Controller
         ];
         $states = State::all();
         $cities = City::where('state_id',10)->get();
-        return view('getting_started',["status" => $status,"entity_types" => $entity_type,"industries" => $industries,"states" => $states,"cities" => $cities]);
+        $public_url = $this->getPublicUrl();
+        return view('getting_started',["status" => $status,"entity_types" => $entity_type,"industries" => $industries,"states" => $states,"cities" => $cities,"public_url" => $public_url]);
 
     }
 
@@ -78,7 +79,7 @@ class HomeController extends Controller
          elseif(!isset($businsee_profile->id)){
             $status = 2;
          }
-         elseif($businsee_profile->status == 0){
+         elseif($businsee_profile->public_url == null){
             $status = 3;
          }
          else{
@@ -94,5 +95,48 @@ class HomeController extends Controller
             'success' => true,
             'data' => $cities,
         ]);
+    }
+
+    public function getPublicUrl(){
+        $user = Auth::user();
+        $businsee_profile = UserBusinessProfile::where('user_id',$user->id)->first();
+        if(isset($businsee_profile->id)){
+            $check = $this->checkPublicUrlAvailablity($businsee_profile->business_name);
+            $response = $check->getData();
+            if($response->success){
+                return $response->public_url;
+            }
+            else{
+               return $this->generatePublicUrl($businsee_profile->business_name);
+            }
+        }
+        else{
+            return '';
+        }
+    }
+
+    public function checkPublicUrlAvailablity($keyword){
+        $string = preg_replace('/[^\da-z ]/i', '', $keyword);
+        $public_url = str_replace(' ', '-', strtolower($string));
+        $url = UserBusinessProfile::where('public_url',$public_url)->first();
+        if(isset($url->id)){
+            return response()->json(['success' => false]);
+        }
+        return response()->json(['success' => true , 'public_url' =>  $public_url]);
+    }
+
+    public Function generatePublicUrl($keyword){
+        $digit = rand ( 100 , 999 );
+        $check = $this->checkPublicUrlAvailablity($keyword.$digit);
+        if($check['success']){
+            return $check['public_url'];
+        }
+        else{
+            $digit = rand ( 1000 , 9999 );
+            $check = $this->checkPublicUrlAvailablity($keyword.$digit);
+            if($check['success']){
+                return $check['public_url'];
+            }
+        }
     }
 }
