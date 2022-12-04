@@ -141,7 +141,7 @@
 	 display: table;
 	 table-layout: fixed;
 	 width: 100%;
-     font-size:1.5vh;
+     font-size:2vh;
 }
  .multi-steps > li {
 	 counter-increment: stepNum;

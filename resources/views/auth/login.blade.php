@@ -39,8 +39,7 @@
                                 @csrf
                            
 		      		<div class="form-group">
-		      			{{-- <input type="text" class="form-control rounded-left" placeholder="Username" required> --}}
-                          <input id="email" type="email" class="form-control rounded-left @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email" autofocus>
+		      		    <input id="email" type="email" placeholder="Username" class="form-control rounded-left @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email" autofocus>
         
                           @error('email')
                               <span class="invalid-feedback" role="alert">
@@ -48,10 +47,8 @@
                               </span>
                           @enderror
 		      		</div>
-	            <div class="form-group d-flex">
-
-	              {{-- <input type="password" class="form-control rounded-left" placeholder="Password" required> --}}
-                  <input id="password" type="password" class="form-control rounded-left @error('password') is-invalid @enderror" name="password" required autocomplete="current-password">
+	            <div class="form-group">
+                  <input id="password" type="password" placeholder="Password" class="form-control rounded-left @error('password') is-invalid @enderror" name="password" required autocomplete="current-password">
 
                   @error('password')
                       <span class="invalid-feedback" role="alert">
