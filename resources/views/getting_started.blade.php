@@ -141,7 +141,7 @@
 	 display: table;
 	 table-layout: fixed;
 	 width: 100%;
-     font-size:2vh;
+     font-size:1.7vh;
 }
  .multi-steps > li {
 	 counter-increment: stepNum;
@@ -235,11 +235,23 @@
   <section class="d-flex align-items-center justify-content-center">
     @if($status == 1)
     <div class="col-md-6 shadow p-3 mb-5 bg-white rounded" style="background-color: white">
+    
         <h3 class="sub-head">Verify your email</h3>
+        @if (session('message'))
+        <div class="alert alert-success" role="alert">
+            {{ __('A verification link has been sent to your email address.') }}
+        </div>
+        @endif
         <p style="font-size: 16px">Please click the verification button in the email we sent to <span class="text-success"> {{ auth()->user()->email }} </span>. This helps keep your account secure.
            <br><br>
-           <span style="font-size: 12px;color: #5f6771;"> No email in your inbox or spam folder? Let's resend it.
-           Wrong address? Log out to sign in with a different email,
+           
+            <form class="d-inline" method="POST" action="{{ route('verification.resend') }}">
+              @csrf
+              <span style="font-size: 12px;color: #5f6771;"> No email in your inbox or spam folder? </span>
+              <button type="submit" class="btn btn-link p-0 m-0 align-baseline" style="font-size:13px;"> Resend Link</button>.
+          </form>
+          <span style="font-size: 12px;color: #5f6771;">
+           Wrong address? <a href="{{route('logout')}}">Log out </a> to sign in with a different email,
            If you mistyped your email when signing up, create a new account.</span></p>
     </div>
     @elseif ($status == 2)

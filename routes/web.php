@@ -2,6 +2,7 @@
 
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -26,7 +27,7 @@ Auth::routes();
 Route::get('logout', function(){
     Auth::logout();
     return redirect('/login');
-});
+})->name('logout');
 
  
 Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $request) {
@@ -34,7 +35,11 @@ Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $requ
  
     return redirect('/home');
 })->middleware(['auth', 'signed'])->name('verification.verify');
-
+Route::post('/email/verification-notification', function (Request $request) {
+    $request->user()->sendEmailVerificationNotification();
+ 
+    return back()->with('message', 'Verification link sent!');
+})->middleware(['auth', 'throttle:6,1'])->name('verification.resend');
 Route::group(['middleware' => ['GettingStart'],], function () {
     Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 });

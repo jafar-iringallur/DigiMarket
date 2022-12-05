@@ -58,10 +58,10 @@
 	            </div>
 	            <div class="form-group d-md-flex">
 	            	<div class="w-50">
-                        <a href="{{ route('register') }}" style="font-size: 12px">Don't have an account?</a>
+                        <a href="{{ route('register') }}" style="font-size: 14px">Don't have an account?</a>
 								</div>
 								<div class="w-50 text-md-right">
-									<a href="{{ route('password.request') }}" style="font-size: 12px">Forgot Password ?</a>
+									<a href="{{ route('password.request') }}" style="font-size: 14px">Forgot Password ?</a>
 								</div>
 	            </div>
 	            <div class="form-group">

@@ -71,7 +71,7 @@
 	            </div>
 	            <div class="form-group d-md-flex">
 	            	<div class="w-50">
-                        <a href="{{ route('login') }}" style="font-size: 12px">Have an account?</a>
+                        <a href="{{ route('login') }}" style="font-size: 14px">Have an account?</a>
 								</div>
 								{{-- <div class="w-50 text-md-right">
 									<a href="{{ route('password.request') }}" style="font-size: 12px">Forgot Password ?</a>
