@@ -7,6 +7,9 @@ use App\Models\State;
 use App\Models\UserBusinessProfile;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Validator;
 
 class HomeController extends Controller
 {
@@ -116,7 +119,7 @@ class HomeController extends Controller
     }
 
     public function checkPublicUrlAvailablity($keyword){
-        $string = preg_replace('/[^\da-z ]/i', '', $keyword);
+        $string = preg_replace('/[^\da-z ]/i', '-', $keyword);
         $public_url = str_replace(' ', '-', strtolower($string));
         $url = UserBusinessProfile::where('public_url',$public_url)->first();
         if(isset($url->id)){
@@ -128,15 +131,79 @@ class HomeController extends Controller
     public Function generatePublicUrl($keyword){
         $digit = rand ( 100 , 999 );
         $check = $this->checkPublicUrlAvailablity($keyword.$digit);
-        if($check['success']){
-            return $check['public_url'];
+        $response = $check->getData();
+        if($response->success){
+            return $response->public_url;
         }
         else{
             $digit = rand ( 1000 , 9999 );
             $check = $this->checkPublicUrlAvailablity($keyword.$digit);
-            if($check['success']){
-                return $check['public_url'];
+            $response = $check->getData();
+            if($response->success){
+                return $response->public_url;
             }
         }
+    }
+
+    public function saveBusiness(Request $request){
+        $validator = Validator::make($request->all(), [
+            'business_name' => 'required|min:4',
+            'business_address_line_1' => 'required',
+            'business_place' => 'required',
+            'business_city' => 'required',
+            'business_district' => 'required',
+            'business_state' => 'required',
+            'business_zip' => 'required|min:5',
+            'business_phone' => 'required|digits:10|integer',
+            'business_email' => 'required|email',
+            'business_whatsapp' => 'required|digits:10|integer',
+            'business_logo' => 'required|max:3000|mimes:jpg,png,jpeg',
+            'entity_type' => 'required',
+            'industry_type' => 'required'
+        ]);
+        $user = Auth::user();
+        if ($validator->fails()) {
+            return Redirect::back()->withErrors($validator);
+        }
+        $file_name       = "business-logo/".$user->id.'_'.$request->business_name. '_.'.$request->business_logo->getClientOriginalExtension();
+        Storage::disk('public')->put($file_name, file_get_contents($request->business_logo));
+        $businsee_profile = UserBusinessProfile::where('user_id',$user->id)->first();
+        if(!isset($businsee_profile->id)){
+            $businsee_profile = new UserBusinessProfile();
+            $businsee_profile->user_id = $user->id;
+        }
+        $businsee_profile->business_name = $request->business_name;
+        $businsee_profile->business_address_line_1 = $request->business_address_line_1;
+        $businsee_profile->business_place = $request->business_place;
+        $businsee_profile->business_city = $request->business_city;
+        $businsee_profile->business_district = $request->business_district;
+        $businsee_profile->business_state = $request->business_state;
+        $businsee_profile->business_zip = $request->business_zip;
+        $businsee_profile->business_phone = $request->business_phone;
+        $businsee_profile->business_email = $request->business_email;
+        $businsee_profile->business_whatsapp = $request->business_whatsapp;
+        $businsee_profile->business_logo =  $file_name;
+        $businsee_profile->entity_type = $request->entity_type;
+        $businsee_profile->industry_type = $request->industry_type;
+        $businsee_profile->save();
+        return redirect('/home');
+    }
+
+    public function checkUrl(Request $request){
+        return $this->checkPublicUrlAvailablity($request->keyword);
+    }
+
+    public function saveUrl(Request $request){
+        $validator = Validator::make($request->all(), [
+            'public_url' => 'required|unique:user_business_profiles|max:50'
+        ]);
+        if ($validator->fails()) {
+            return Redirect::back()->withErrors($validator);
+        }
+        $user = Auth::user();
+        $businsee_profile = UserBusinessProfile::where('user_id',$user->id)->first();
+        $businsee_profile->public_url = $request->public_url;
+        $businsee_profile->save();
+        return redirect('/home');
     }
 }

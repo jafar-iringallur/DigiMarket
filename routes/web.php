@@ -45,3 +45,6 @@ Route::group(['middleware' => ['GettingStart'],], function () {
 });
 Route::get('/getting-started', [App\Http\Controllers\HomeController::class, 'gettingStartIndex'])->name('get.start.index');
 Route::get('/get-city', [App\Http\Controllers\HomeController::class, 'getCity'])->name('get.city');
+Route::post('/save-business', [App\Http\Controllers\HomeController::class, 'saveBusiness'])->name('save.business');
+Route::get('/check-url', [App\Http\Controllers\HomeController::class, 'checkUrl'])->name('check.url');
+Route::post('/save-url', [App\Http\Controllers\HomeController::class, 'saveUrl'])->name('save.url');

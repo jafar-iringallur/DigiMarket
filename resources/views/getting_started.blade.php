@@ -257,30 +257,35 @@
     @elseif ($status == 2)
     <div class="col-md-8 shadow p-3 mb-5 bg-white rounded" style="background-color: white">
         <h3 class="sub-head">Add Your Business Info</h3>
-        <form>
-           
+        <form method="Post" action="{{route('save.business')}}" enctype="multipart/form-data">
+          @csrf
+          @if($errors->any())
+          <div class="alert alert-danger" style="font-size: 14px">
+            {!! implode('', $errors->all('<div>:message</div>')) !!}
+          </div>
+          @endif
               <div class="form-group">
                 <label for="inputEmail4">Company Name</label>
-                <input type="text" class="form-control" id="business_name" name="business_name" placeholder="Your Company Name">
+                <input type="text" class="form-control" id="business_name" name="business_name" placeholder="Your Company Name" required>
               </div>
               <div class="form-group">
                 <label for="inputPassword4">Address</label>
-                <input type="text" class="form-control" id="business_address_line_1" name="business_address_line_1" placeholder="Company Address">
+                <input type="text" class="form-control" id="business_address_line_1" name="business_address_line_1" placeholder="Company Address" required>
               </div>
             <div class="form-row">
             <div class="form-group col-md-6">
               <label for="inputAddress">Place</label>
-              <input type="text" class="form-control" id="business_place" name="business_place" placeholder="Place">
+              <input type="text" class="form-control" id="business_place" name="business_place" placeholder="Place" required>
             </div>
             <div class="form-group col-md-6">
               <label for="inputAddress2">City</label>
-              <input type="text" class="form-control" id="business_city" name="business_city" placeholder="City">
+              <input type="text" class="form-control" id="business_city" name="business_city" placeholder="City" required>
             </div>
             </div>
             <div class="form-row">
                 <div class="form-group col-md-6">
                     <label for="inputState">State</label>
-                    <select id="business_state" name="business_state" class="form-control">
+                    <select id="business_state" name="business_state" class="form-control" required>
                         @foreach($states as $state)
                         @if($state->id == 10 )
                         <option value={{$state->id}} selected>{{$state->name}}</option>
@@ -292,7 +297,7 @@
                   </div>
               <div class="form-group col-md-6">
                 <label for="inputCity">District</label>
-                <select id="business_district" name="business_district" class="form-control">
+                <select id="business_district" name="business_district" class="form-control" required>
                     <option selected>--Select a District--</option>
                     @foreach($cities as $city)
                     <option value={{$city->id}}>{{$city->city}}</option>
@@ -304,28 +309,28 @@
             <div class="form-row">
                 <div class="form-group col-md-6">
                     <label for="inputCity">Zip</label>
-                    <input type="number" class="form-control" id="business_zip" name="business_zip" placeholder="Zip">
+                    <input type="number" class="form-control" id="business_zip" name="business_zip" placeholder="Zip" required>
                   </div>
                 <div class="form-group col-md-6">
                     <label for="inputCity">Email</label>
-                    <input type="number" class="form-control" id="business_email" name="business_email" placeholder="Email">
+                    <input type="email" class="form-control" id="business_email" name="business_email" placeholder="Email" required>
                   </div>
             </div>
             <div class="form-row">
                 <div class="form-group col-md-6">
                     <label for="inputCity">Phone</label>
-                    <input type="number" class="form-control" id="business_phone" name="business_phone" placeholder="Phone">
+                    <input type="number" class="form-control" id="business_phone" name="business_phone" placeholder="Phone" required>
                   </div>
                 <div class="form-group col-md-6">
                     <label for="inputCity">WhatsApp</label>
-                    <input type="number" class="form-control" id="business_whatsapp" name="business_whatsapp" placeholder="Whatsapp Number">
+                    <input type="number" class="form-control" id="business_whatsapp" name="business_whatsapp" placeholder="Whatsapp Number" required>
                   </div>
             </div>
 
             <div class="form-row">
                 <div class="form-group col-md-6">
                   <label for="inputCity">Entity Type</label>
-                  <select id="entity_type" name="entity_type" class="form-control">
+                  <select id="entity_type" name="entity_type" class="form-control" required>
                     <option selected>--Choose a entity--</option>
                     @foreach($entity_types as $key => $value)
                     <option value={{$key}}>{{$value}}</option>
@@ -334,7 +339,7 @@
                 </div>
                 <div class="form-group col-md-6">
                   <label for="inputState">Industry</label>
-                  <select id="industry_type" name="industry_type" class="form-control">
+                  <select id="industry_type" name="industry_type" class="form-control" required>
                     <option selected>--Choose a industry--</option>
                     @foreach($industries as $key => $value)
                     <option value={{$key}}>{{$value}}</option>
@@ -344,7 +349,7 @@
               </div>
               <div class="form-group">
                 <label for="inputPassword4">Logo</label>
-                <input type="file" class="form-control" id="business_logo" name="business_logo">
+                <input type="file" class="form-control" id="business_logo" name="business_logo" required>
               </div>
          
             <button type="submit" class="btn btn-primary">Submit</button>
@@ -353,19 +358,24 @@
     @else
     <div class="col-md-8 shadow p-3 mb-5 bg-white rounded" style="background-color: white">
       <h3 class="sub-head">Confirm Your Public Url</h3>
-      <form>
-         
+      <form method="POST" action="{{route('save.url')}}">
+         @csrf
+         @if($errors->any())
+         <div class="alert alert-danger" style="font-size: 14px">
+           {!! implode('', $errors->all('<div>:message</div>')) !!}
+         </div>
+         @endif
             <div class="form-group">
-              <label for="inputEmail4">Public Url <span class="text text-success" style="font-size: 12px">Availiable</span></label>
+              <label for="inputEmail4">Public Url <span class="text text-success" style="font-size: 12px" id="url_status">Availiable</span></label>
               <div class="row">
                 <div class="col-md-8 d-flex justify-content-between mb-2">
                   <p class="" style="padding-left: 9px; border-color: red;margin: 0;line-height: 44px; border: 1px solid #ced4da !important;border-right: transparent !important;color: #ababb3;">{{ env('PUBLIC_URL') }}</p>
                  
                   <input type="text" value="{{$public_url}}" autofocus="autofocus" id="public_url" name="public_url" maxlength="26" size="50" 
-                  style=" padding-right: 23px !important;    width: 100%;border: 1px solid #ced4da !important;border-left: white !important;margin: 0 !important">
+                  style=" padding-right: 23px !important;    width: 100%;border: 1px solid #ced4da !important;border-left: white !important;margin: 0 !important" required>
                 </div>
                 <div class="col-md-4">
-                  <button type="button" class="btn btn-primary mb-2">Confirm</button>
+                  <button type="submit" class="btn btn-primary mb-2" id="url_confirm_btn">Confirm</button>
                 </div>
               </div>
        
@@ -406,6 +416,31 @@
                     text : value['city']
                 }));
             });     
+         }
+        }
+        });
+    });
+
+    $('#public_url').keyup(function(){
+      $('#url_status').text('Not available');
+      $('#url_status').removeClass("text-success");
+      $('#url_status').addClass("text-danger");
+      $('#url_confirm_btn').prop('disabled', true);
+      var keyword =  $('#public_url').val();
+      $.ajax({
+        type: "GET",
+        url: "{{route('check.url')}}",
+        data: { keyword : keyword},
+        dataType: "json",
+        success: function(data) {
+         if(data.success){
+          $('#url_status').text('Available');
+          $('#url_status').removeClass("text-danger");
+          $('#url_status').addClass("text-success");
+          $('#url_confirm_btn').prop('disabled', false);
+         }
+         else{
+         
          }
         }
         });
