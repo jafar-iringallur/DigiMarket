@@ -60,13 +60,9 @@
 							<div class="col-12">
 							  {{-- <label for="yourPassword" class="form-label">Password</label> --}}
 							  <input id="password" type="password" placeholder="Password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="current-password">
-							 <div class="row mt-2">
-								<div class="col-6">
-								</div>
-								<div class="col-6">
-									<p class="small mb-0" style="display: flex; justify-content: flex-end"><a class="float-right" href="{{ route('password.request') }}">Forgot Password</a></p>
-								  </div>
-							 </div>
+						
+									<p class="small mb-0 mt-2" style="display: flex; justify-content: flex-end"><a class="float-right" href="{{ route('password.request') }}">Forgot Password</a></p>
+								 
 							  @error('password')
 							  <span class="invalid-feedback" role="alert">
 								  <strong>{{ $message }}</strong>
