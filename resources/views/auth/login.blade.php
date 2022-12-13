@@ -44,10 +44,10 @@
 						  <form class="row g-3 needs-validation" novalidate  method="POST" action="{{ route('login') }}">
 							@csrf
 							<div class="col-12">
-							  <label for="yourUsername" class="form-label">Email</label>
+							  {{-- <label for="yourUsername" class="form-label">Email</label> --}}
 							  <div class="input-group has-validation">
 								{{-- <span class="input-group-text" id="inputGroupPrepend">@</span> --}}
-								<input id="email" type="email" placeholder="Email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email" autofocus>
+								<input id="email" type="email" placeholder="Email Address" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email" autofocus>
 								@error('email')
 								<span class="invalid-feedback" role="alert">
 									<strong>{{ $message }}</strong>
@@ -58,8 +58,15 @@
 							</div>
 		
 							<div class="col-12">
-							  <label for="yourPassword" class="form-label">Password</label>
+							  {{-- <label for="yourPassword" class="form-label">Password</label> --}}
 							  <input id="password" type="password" placeholder="Password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="current-password">
+							 <div class="row mt-2">
+								<div class="col-6">
+								</div>
+								<div class="col-6">
+									<p class="small mb-0" style="display: flex; justify-content: flex-end"><a class="float-right" href="{{ route('password.request') }}">Forgot Password</a></p>
+								  </div>
+							 </div>
 							  @error('password')
 							  <span class="invalid-feedback" role="alert">
 								  <strong>{{ $message }}</strong>
@@ -77,18 +84,16 @@
 							  <button class="btn btn-primary w-100" type="submit">Login</button>
 							</div>
 							<div class="col-12">
-							  <p class="small mb-0 float-right"><a href="{{ route('register') }}">Create an account</a></p>
+							  <p class="small mb-0" style="display: flex; justify-content: center">Don't have an account ?&nbsp;&nbsp;<a href="{{ route('register') }}">Create an account</a></p>
 							</div>
-							<div class="col-12">
-							  <p class="small mb-0"><a class="float-right" href="{{ route('password.request') }}">Forgot Password</a></p>
-							</div>
+							
 						  </form>
 		
 						</div>
 					  </div>
 		
-					  <div class="credits">
-						&copy; Botire Digital Solutions
+					  <div class="credits" style="font-size: 14px">
+						&copy; {{ now()->year }} Botire Digital Solutions
 					  </div>
 		
 					</div>
