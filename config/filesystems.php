@@ -52,6 +52,13 @@ return [
             'endpoint' => env('AWS_ENDPOINT'),
             'use_path_style_endpoint' => env('AWS_USE_PATH_STYLE_ENDPOINT', false),
         ],
+        'ftp' => [
+            'driver'   => 'ftp',
+            'host'     => 'ftp.botire.in',
+            'username' => 'test@test.botire.in',
+            'password' => 'Jafar@2001',
+            'url'      => 'https://files.botire.in/test/'
+        ],
 
     ],
 
