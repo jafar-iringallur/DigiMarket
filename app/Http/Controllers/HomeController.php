@@ -28,10 +28,7 @@ class HomeController extends Controller
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
-    public function index()
-    {
-        return view('dashboard.index');
-    }
+ 
 
     public function gettingStartIndex(){
         $status = $this->getOnboardStatus();
@@ -145,6 +142,33 @@ class HomeController extends Controller
         }
     }
 
+    public function uploadLogo(Request $request){
+        $validator = Validator::make($request->all(), [
+            'business_logo' => 'required',
+        ]);
+        if ($validator->fails()) {
+            return response()->json([
+                'success' => false,
+                'message' => $validator->errors()->first(),
+            ]);
+        }
+        $user = Auth::user();
+        $data = $request->business_logo;
+        $image_array_1 = explode(";", $data);
+        $image_array_2 = explode(",", $image_array_1[1]);
+        $data = base64_decode($image_array_2[1]);
+
+        // $image_name = 'upload/' . time() . '.png';
+
+        // file_put_contents($image_name, $data);
+        $file_name       = "business-logo/".$user->id.'_'.time(). '_.'.'png';
+        Storage::disk('public')->put($file_name, $data);
+        return response()->json([
+            'success' => true,
+            'file_name' => $file_name,
+        ]);
+    }
+
     public function saveBusiness(Request $request){
         $validator = Validator::make($request->all(), [
             'business_name' => 'required|min:4',
@@ -157,7 +181,7 @@ class HomeController extends Controller
             'business_phone' => 'required|digits:10|integer',
             'business_email' => 'required|email',
             'business_whatsapp' => 'required|digits:10|integer',
-            'business_logo' => 'required|max:3000|mimes:jpg,png,jpeg',
+            'business_logo_file' => 'required',
             'entity_type' => 'required',
             'industry_type' => 'required'
         ]);
@@ -165,8 +189,7 @@ class HomeController extends Controller
         if ($validator->fails()) {
             return Redirect::back()->withErrors($validator);
         }
-        $file_name       = "business-logo/".$user->id.'_'.$request->business_name. '_.'.$request->business_logo->getClientOriginalExtension();
-        Storage::disk('public')->put($file_name, file_get_contents($request->business_logo));
+       
         $businsee_profile = UserBusinessProfile::where('user_id',$user->id)->first();
         if(!isset($businsee_profile->id)){
             $businsee_profile = new UserBusinessProfile();
@@ -182,7 +205,7 @@ class HomeController extends Controller
         $businsee_profile->business_phone = $request->business_phone;
         $businsee_profile->business_email = $request->business_email;
         $businsee_profile->business_whatsapp = $request->business_whatsapp;
-        $businsee_profile->business_logo =  $file_name;
+        $businsee_profile->business_logo =  $request->business_logo_file;
         $businsee_profile->entity_type = $request->entity_type;
         $businsee_profile->industry_type = $request->industry_type;
         $businsee_profile->save();
