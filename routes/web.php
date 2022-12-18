@@ -41,10 +41,11 @@ Route::post('/email/verification-notification', function (Request $request) {
     return back()->with('message', 'Verification link sent!');
 })->middleware(['auth', 'throttle:6,1'])->name('verification.resend');
 Route::group(['middleware' => ['GettingStart'],], function () {
-    Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+    Route::get('/home', [App\Http\Controllers\DashboardController::class, 'index'])->name('home');
 });
 Route::get('/getting-started', [App\Http\Controllers\HomeController::class, 'gettingStartIndex'])->name('get.start.index');
 Route::get('/get-city', [App\Http\Controllers\HomeController::class, 'getCity'])->name('get.city');
+Route::post('/upload-logo', [App\Http\Controllers\HomeController::class, 'uploadLogo'])->name('upload.logo');
 Route::post('/save-business', [App\Http\Controllers\HomeController::class, 'saveBusiness'])->name('save.business');
 Route::get('/check-url', [App\Http\Controllers\HomeController::class, 'checkUrl'])->name('check.url');
 Route::post('/save-url', [App\Http\Controllers\HomeController::class, 'saveUrl'])->name('save.url');

@@ -6,93 +6,123 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-	<link href="https://fonts.googleapis.com/css?family=Lato:300,400,700&display=swap" rel="stylesheet">
-
-	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-	
-	<link rel="stylesheet" href="{{ asset('login-form/css/style.css') }}">
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
-    <!-- Fonts -->
-    <link rel="dns-prefetch" href="//fonts.gstatic.com">
-    <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
-
-    <!-- Styles -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
-
+	<link href="https://fonts.gstatic.com" rel="preconnect">
+	<link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+  
+  
+  
+   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.2/font/bootstrap-icons.css" integrity="sha384-b6lVK+yci+bfDmaY1u0zE8YYJt0TZxLEAFyYSLHId4xoVvsrQu3INevFKo+Xir8e" crossorigin="anonymous">
+   <link rel="stylesheet"
+	href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css">
+	<link href="{{ asset('dashboard/css/style.css') }}" rel="stylesheet">
 	</head>
-	<body style=" background-color: #f0f0f0;">
-	<section class="ftco-section">
-		<div class="container">
-			{{-- <div class="row justify-content-center">
-				<div class="col-md-6 text-center mb-5">
-					<h2 class="heading-section">Login #08</h2>
+	<body>
+		<main>
+			<div class="container">
+		
+			  <section class="section register min-vh-100 d-flex flex-column align-items-center justify-content-center py-4">
+				<div class="container">
+				  <div class="row justify-content-center">
+					<div class="col-lg-4 col-md-6 d-flex flex-column align-items-center justify-content-center">
+		
+					  {{-- <div class="d-flex justify-content-center py-4">
+						<a href="index.html" class="logo d-flex align-items-center w-auto">
+						  <img src="https://www.botire.in/assets/img/logo.png" alt=""> 
+						 <span class="d-none d-lg-block">NiceAdmin</span>
+						</a>
+					  </div><!-- End Logo --> --}}
+		
+					  <div class="card mb-3">
+		
+						<div class="card-body">
+		
+						  <div class="pt-4 pb-2">
+							<h5 class="card-title text-center pb-0 fs-4">Register</h5>
+							{{-- <p class="text-center small">Enter your username & password to login</p> --}}
+						  </div>
+		
+						  <form class="row g-3 needs-validation" novalidate  method="POST" action="{{ route('register') }}">
+							@csrf
+						
+							<div class="col-12">
+								{{-- <label for="yourPassword" class="form-label">Password</label> --}}
+								<input id="name" type="text" placeholder="Name" class="form-control @error('name') is-invalid @enderror" name="name" value="{{ old('name') }}" required autocomplete="name" autofocus>
+	    
+								@error('name')
+								<span class="invalid-feedback" role="alert">
+									<strong>{{ $message }}</strong>
+								</span>
+							@enderror
+							  </div>
+		  
+							<div class="col-12">
+							  {{-- <label for="yourUsername" class="form-label">Email</label> --}}
+							  <div class="input-group has-validation">
+								{{-- <span class="input-group-text" id="inputGroupPrepend">@</span> --}}
+								<input id="email" type="email" placeholder="Email Address" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email" autofocus>
+								@error('email')
+								<span class="invalid-feedback" role="alert">
+									<strong>{{ $message }}</strong>
+								</span>
+							     @enderror
+		
+							  </div>
+							</div>
+		
+							<div class="col-12">
+							  {{-- <label for="yourPassword" class="form-label">Password</label> --}}
+							  <input id="password" type="password" placeholder="Password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="current-password">
+							  @error('password')
+							  <span class="invalid-feedback" role="alert">
+								  <strong>{{ $message }}</strong>
+							  </span>
+						  @enderror
+							</div>
+		
+							<div class="col-12">
+								{{-- <label for="yourPassword" class="form-label">Password</label> --}}
+								<input id="password-confirm" placeholder="Confirm-Password" type="password" class="form-control" name="password_confirmation" required autocomplete="new-password">
+							
+							  </div>
+							{{-- <div class="col-12">
+							  <div class="form-check">
+								<input class="form-check-input" type="checkbox" name="remember" value="true" id="rememberMe">
+								<label class="form-check-label" for="rememberMe">Remember me</label>
+							  </div>
+							</div> --}}
+							<div class="col-12">
+							  <button class="btn btn-primary w-100" type="submit">Register</button>
+							</div>
+							<div class="col-12">
+							  <p class="small mb-0"><a href="{{ route('login') }}">Have an account ?</a></p>
+							</div>
+							
+						  </form>
+		
+						</div>
+					  </div>
+		
+					  <div class="credits" style="font-size: 14px">
+						&copy; {{ now()->year }} Botire Digital Solutions
+					  </div>
+		
+					</div>
+				  </div>
 				</div>
-			</div> --}}
-			<div class="row justify-content-center">
-				<div class="col-md-6 col-lg-5">
-					<div class="login-wrap p-4 p-md-5">
-		      	<div class="icon d-flex align-items-center justify-content-center">
-		      		<span class="fa fa-user-o"></span>
-		      	</div>
-		      	<h3 class="text-center mb-4">Don't have an account?</h3>
-
-                            <form class="login-form" method="POST" action="{{ route('register') }}">
-                                @csrf
-                           
-		      		<div class="form-group">
-		      		     <input id="name" type="text" placeholder="Name" class="form-control rounded-left @error('name') is-invalid @enderror" name="name" value="{{ old('name') }}" required autocomplete="name" autofocus>
-
-                            @error('name')
-                                <span class="invalid-feedback" role="alert">
-                                    <strong>{{ $message }}</strong>
-                                </span>
-                            @enderror
-		      		</div>
-		      		<div class="form-group">
-		      		      <input id="email" type="email" placeholder="Email" class="form-control rounded-left @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email" autofocus>
-        
-                          @error('email')
-                              <span class="invalid-feedback" role="alert">
-                                  <strong>{{ $message }}</strong>
-                              </span>
-                          @enderror
-		      		</div>
-	            <div class="form-group">
-	              <input id="password" type="password" placeholder="Password" class="form-control rounded-left @error('password') is-invalid @enderror" name="password" required autocomplete="current-password">
-
-                  @error('password')
-                      <span class="invalid-feedback" role="alert">
-                          <strong>{{ $message }}</strong>
-                      </span>
-                  @enderror
-	            </div>
-	            <div class="form-group">
-                    <input id="password-confirm" placeholder="Confirm-Password" type="password" class="form-control rounded-left" name="password_confirmation" required autocomplete="new-password">
-	            </div>
-	            <div class="form-group d-md-flex">
-	            	<div class="w-50">
-                        <a href="{{ route('login') }}" style="font-size: 14px">Have an account?</a>
-								</div>
-								{{-- <div class="w-50 text-md-right">
-									<a href="{{ route('password.request') }}" style="font-size: 12px">Forgot Password ?</a>
-								</div> --}}
-	            </div>
-	            <div class="form-group">
-	            	<button type="submit" class="btn btn-primary rounded submit p-3 px-5">Register</button>
-	            </div>
-	          </form>
-	        </div>
-				</div>
+		
+			  </section>
+		
 			</div>
-		</div>
-	</section>
-
-	<script src="{{ asset('login-form/js/jquery.min.js') }}"></script>
-	<script src="{{ asset('login-form/js/popper.js') }}"></script>
-	<script src="{{ asset('login-form/js/bootstrap.min.js') }}"></script>
-	<script src="{{ asset('login-form/js/main.js') }}"></script>
-
+		  </main><!-- End #main -->
+	
+		  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js" integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous"></script>
+		  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.min.js" integrity="sha384-cuYeSxntonz0PPNlHhBs68uyIAVpIIOZZ5JqeqvYYIcEL727kskC66kF92t6Xl2V" crossorigin="anonymous"></script> 
+		  
+			<script src="{{ asset('dashboard/js/main.js') }}"></script>
 
 	</body>
 </html>
+
+
 
