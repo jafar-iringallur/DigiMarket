@@ -7,6 +7,7 @@ use App\Models\State;
 use App\Models\UserBusinessProfile;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
@@ -154,19 +155,38 @@ class HomeController extends Controller
         }
         $user = Auth::user();
         $data = $request->business_logo;
-        $image_array_1 = explode(";", $data);
-        $image_array_2 = explode(",", $image_array_1[1]);
-        $data = base64_decode($image_array_2[1]);
+        // $image_array_1 = explode(";", $data);
+        // $image_array_2 = explode(",", $image_array_1[1]);
+        // $data = base64_decode($image_array_2[1]);
 
         // $image_name = 'upload/' . time() . '.png';
 
         // file_put_contents($image_name, $data);
         $file_name       = "business-logo/".$user->id.'_'.time(). '_.'.'png';
-        Storage::disk('public')->put($file_name, $data);
-        return response()->json([
-            'success' => true,
-            'file_name' => $file_name,
-        ]);
+        $apiURL = 'https://files.botire.in/api/upload-file';
+        $postInput = [
+            'auth_key' => 'LO3ZG7UoZ3rPJJ40qNEtY90XaZfHJ',
+            'bucket' => 'test',
+            'file' =>  $request->business_logo,
+            'file_name' => $file_name
+        ];
+  
+        $response = Http::post($apiURL, $postInput);
+        $responseBody = json_decode($response->getBody(), true);
+        if($responseBody['success']){
+            return response()->json([
+                'success' => true,
+                'file_name' => $responseBody['file_url'],
+            ]);
+        }
+        else{
+            return response()->json([
+                'success' => false,
+                'message' => "something went wrong",
+            ]);
+        }
+        // Storage::disk('public')->put($file_name, $data);
+      
     }
 
     public function saveBusiness(Request $request){
