@@ -1,7 +1,9 @@
 <ul class="sidebar-nav" id="sidebar-nav">
-
+  @php
+    $route_name = request()->route()->getName();
+  @endphp
     <li class="nav-item">
-      <a class="nav-link " href="index.html">
+      <a class="nav-link {{ $route_name == "home" ? '' : 'collapsed' }}" href="{{route('home')}}">
         <i class="bi bi-grid"></i>
         <span>Dashboard</span>
       </a>
@@ -40,6 +42,13 @@
       <a class="nav-link collapsed" href="pages-error-404.html">
         <i class="bi bi-tags"></i>
         <span>Discounts</span>
+      </a>
+    </li>
+
+    <li class="nav-item">
+      <a class="nav-link collapsed" href="pages-error-404.html">
+        <i class="bi bi-gear"></i>
+        <span>Tools</span>
       </a>
     </li>
  

@@ -32,17 +32,18 @@ Route::get('logout', function(){
  
 Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $request) {
     $request->fulfill();
- 
     return redirect('/home');
 })->middleware(['auth', 'signed'])->name('verification.verify');
+
 Route::post('/email/verification-notification', function (Request $request) {
     $request->user()->sendEmailVerificationNotification();
- 
     return back()->with('message', 'Verification link sent!');
 })->middleware(['auth', 'throttle:6,1'])->name('verification.resend');
+
 Route::group(['middleware' => ['GettingStart'],], function () {
     Route::get('/home', [App\Http\Controllers\DashboardController::class, 'index'])->name('home');
 });
+
 Route::get('/getting-started', [App\Http\Controllers\HomeController::class, 'gettingStartIndex'])->name('get.start.index');
 Route::get('/get-city', [App\Http\Controllers\HomeController::class, 'getCity'])->name('get.city');
 Route::post('/upload-logo', [App\Http\Controllers\HomeController::class, 'uploadLogo'])->name('upload.logo');
