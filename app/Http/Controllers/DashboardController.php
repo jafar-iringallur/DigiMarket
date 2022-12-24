@@ -18,9 +18,6 @@ class DashboardController extends Controller
 
     public function index()
     {
-        $user_id = Auth::user()->id;
-        $businsee_profile = UserBusinessProfile::where('user_id',$user_id)->first();
-    
-        return view('dashboard.index',["businsee_profile" => $businsee_profile]);
+        return view('dashboard.index');
     }
 }

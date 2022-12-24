@@ -5,7 +5,7 @@ $user_id = Auth::user()->id;
 $businsee_profile = UserBusinessProfile::where('user_id',$user_id)->first();
 @endphp
 @section('title')
-{{ $businsee_profile->business_name }} | Dashboard
+   {{ $businsee_profile->business_name }} | Products
 @endsection
 @section('header')
 @include('dashboard.layouts.header')
@@ -14,5 +14,5 @@ $businsee_profile = UserBusinessProfile::where('user_id',$user_id)->first();
 @include('dashboard.layouts.sidebar')
 @endsection
 @section('page-content')
-@include('dashboard.page-content')
+@include('dashboard.products.index-content')
 @endsection

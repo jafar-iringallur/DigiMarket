@@ -11,17 +11,19 @@
 
     
 
+
+    <li class="nav-item">
+      <a class="nav-link {{ $route_name == "products.index" ? '' : 'collapsed' }}" href="{{route('products.index')}}">
+        <i class="bi bi-basket2"></i>
+        <span>Products</span>
+      </a>
+    </li>
+
+    
     <li class="nav-item">
       <a class="nav-link collapsed" href="pages-error-404.html">
         <i class="bi bi-cart3"></i>
         <span>Orders</span>
-      </a>
-    </li>
-
-    <li class="nav-item">
-      <a class="nav-link collapsed" href="pages-error-404.html">
-        <i class="bi bi-basket2"></i>
-        <span>Products</span>
       </a>
     </li>
     <li class="nav-item">

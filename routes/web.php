@@ -42,6 +42,11 @@ Route::post('/email/verification-notification', function (Request $request) {
 
 Route::group(['middleware' => ['GettingStart'],], function () {
     Route::get('/home', [App\Http\Controllers\DashboardController::class, 'index'])->name('home');
+
+    Route::prefix('products')->group(function () {
+        Route::get('/', [App\Http\Controllers\ProductController::class, 'index'])->name('products.index');
+
+    });
 });
 
 Route::get('/getting-started', [App\Http\Controllers\HomeController::class, 'gettingStartIndex'])->name('get.start.index');
