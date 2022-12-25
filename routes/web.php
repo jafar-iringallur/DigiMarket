@@ -46,6 +46,7 @@ Route::group(['middleware' => ['GettingStart'],], function () {
     Route::prefix('products')->group(function () {
         Route::get('/', [App\Http\Controllers\ProductController::class, 'index'])->name('products.index');
         Route::get('/add', [App\Http\Controllers\ProductController::class, 'addIndex'])->name('products.add');
+        Route::post('/upload-image', [App\Http\Controllers\ProductController::class, 'uploadImage'])->name('products.upload.image');
 
     });
 });
