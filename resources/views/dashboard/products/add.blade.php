@@ -84,6 +84,12 @@ input[type="file"] {
     .cropper-container{
       width: auto !important;
     }
+    .modal:nth-of-type(even) {
+    z-index: 1052 !important;
+}
+.modal-backdrop.show:nth-of-type(even) {
+    z-index: 1051 !important;
+}
   </style>
      <div class="pagetitle">
        <h1>Add Product</h1>
@@ -104,34 +110,60 @@ input[type="file"] {
            <h5 class="card-title">Products Details</h5>
                   <form class="row g-3">
                      <div class="col-12">
-                       <label for="inputNanme4" class="form-label">Your Name</label>
-                       <input type="text" class="form-control" id="inputNanme4">
+                       <label for="inputNanme4" class="form-label">Name</label>
+                       <input type="text" class="form-control" id="name" name="name">
+                     </div>
+
+                     <div class="col-6">
+                      <label for="Stock" class="form-label">Stock</label>
+                      <select class="form-select" aria-label="Default select" id="Stock" name="in_stock">
+                        <option value="1" selected>Yes</option>
+                        <option value="0">No</option>
+        
+                      </select>
+                     </div>
+                     <div class="col-6">
+                     </div>
+                     <div class="col-md-8 col-6">
+                       <label for="inputEmail4" class="form-label">Category</label>
+                       <input type="text" class="form-control" id="category_id" name="category_id">
+                     </div>
+                     <div class="col-md-4 col-6 pt-3">
+    
+                      <button type="button" class="btn btn-sm btn-primary mt-3" onclick="addCategory()"><i class="bi-plus-circle"></i> Add Category</button>
+                     </div>
+                     <div class="col-6">
+                       <label for="inputPassword4" class="form-label">Quantity</label>
+                       <input type="text" class="form-control" id="base_qty" name="base_qty">
+                     </div>
+                     <div class="col-6">
+                       <label for="inputPassword4" class="form-label">Unit</label>
+                       <input type="text" class="form-control" id="unit" name="unit">
+                     </div>
+                     <div class="col-6">
+                       <label for="inputPassword4" class="form-label">Original Price</label>
+                       <input type="text" class="form-control" id="original_price" name="original_price">
+                     </div>
+                     <div class="col-6">
+                       <label for="inputPassword4" class="form-label">Discounted Price</label>
+                       <input type="text" class="form-control" id="selling_price" name="selling_price">
                      </div>
                      <div class="col-12">
-                       <label for="inputEmail4" class="form-label">Email</label>
-                       <input type="email" class="form-control" id="inputEmail4">
-                     </div>
-                     <div class="col-12">
-                       <label for="inputPassword4" class="form-label">Password</label>
-                       <input type="password" class="form-control" id="inputPassword4">
-                     </div>
-                     <div class="col-12">
-                       <label for="inputAddress" class="form-label">Address</label>
-                       <input type="text" class="form-control" id="inputAddress" placeholder="1234 Main St">
+                       <label for="inputAddress" class="form-label">Description</label>
+                       <textarea class="form-control"  id="description" name="description" style="height: 100px;"></textarea>
                      </div>
                      <div class="col-12">
                        <span class="form-label mb-2">Image</span><br>
-                  
                        <div class="image-preview m-2 p-3">
                          <div class="row" id="image-preview">
                          
                          </div>
-                      
-                      <label for="file-upload" class="custom-file-upload">
-                        <i class="bi bi-cloud-arrow-up"></i> Upload Image
-                    </label>
-                    <input id="file-upload" type="file" accept="image/*"/>
+                         <label for="file-upload" class="custom-file-upload mt-2">
+                            <i class="bi bi-cloud-arrow-up"></i> <span id="upload-btn-txt-1"> Upload Image</span>
+                          </label>
+                        <input id="file-upload" type="file" accept="image/*"/>
                      </div>
+                  
                      <div class="text-center">
                        <button type="submit" class="btn btn-primary">Add</button>
                       
@@ -143,7 +175,7 @@ input[type="file"] {
            
        
      </section>
-     <div class="modal fade" id="modal" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
+     <div class="modal fade" id="modal" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true" data-bs-backdrop="static">
       <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -165,13 +197,49 @@ input[type="file"] {
               </div>
             </div>
             <div class="modal-footer">
-              <button type="button" id="crop" class="btn btn-primary">Upload</button>
+              <span id="image_upload_button">
+
+              </span>
+             
               <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
             </div>
         </div>
       </div>
     </div>	
-    
+    <div class="modal fade" id="addCategoryModal" tabindex="-1">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Add category</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <form class="row g-3" id="categoryForm">
+              <div class="col-12">
+                <label for="inputNanme4" class="form-label">Category Name</label>
+                <input type="text" class="form-control" name="category_name" id="inputNanme4" required>
+              </div>
+            
+              <div class="col-12">
+                <span class="form-label mb-2">Image</span><br>
+                <div class="row" id="category-preview">
+                         
+                </div>
+                <label for="category_image" class="custom-file-upload mt-2">
+                  <i class="bi bi-cloud-arrow-up"></i><span id="upload-btn-txt-2"> Upload Image</span>
+                </label>
+                <input type="file" class="form-control" id="category_image" accept="image/*">
+              </div>
+            
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            <button type="submit" class="btn btn-primary">Add</button>
+          </div>
+        </div>
+      </div>
+    </div><!-- End Vertically centered Modal-->
   <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js'></script>
   <script src='https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-beta/js/bootstrap.min.js'></script>
   <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.3/jquery.easing.min.js'></script>
@@ -189,11 +257,35 @@ input[type="file"] {
         var cropper;
       
         $('#file-upload').change(function(event){
+          $('#image_upload_button').html(' <button type="button" id="upload_image" class="btn btn-primary">Upload</button>');
+        
           var files = event.target.files;
       
           var done = function(url){
             image.src = url;
             $modal.modal('show');
+          };
+      
+          if(files && files.length > 0)
+          {
+            reader = new FileReader();
+            reader.onload = function(event)
+            {
+              done(reader.result);
+            };
+            reader.readAsDataURL(files[0]);
+          }
+        });
+
+        $('#category_image').change(function(event){
+          $('#image_upload_button').html(' <button type="button" id="upload_category_image" class="btn btn-primary">Upload</button>');
+        
+          var files = event.target.files;
+      
+          var done = function(url){
+            image.src = url;
+            $modal.modal('show');
+            $('#addCategoryModal').modal('hide');
           };
       
           if(files && files.length > 0)
@@ -216,8 +308,60 @@ input[type="file"] {
           cropper.destroy();
              cropper = null;
         });
+
+        $(document).on('click', '#upload_category_image', function() { 
+
+          canvas = cropper.getCroppedCanvas({
+            width:400,
+            height:400
+          });
       
-        $('#crop').click(function(){
+          canvas.toBlob(function(blob){
+            url = URL.createObjectURL(blob);
+            var reader = new FileReader();
+            reader.readAsDataURL(blob);
+            reader.onloadend = function(){
+              var base64data = reader.result;
+              $.ajax({
+                url: "{{route('products.upload.category.image')}}",
+                method:'POST',
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                data:{image:base64data},
+                beforeSend: function() {
+                  $('#upload_category_image').prop('disabled', true);
+                  $('#upload_category_image').html('<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>Loading...');
+                },
+                complete: function() {
+                  $('#upload_category_image').prop('disabled', false);
+                  $('#upload_category_image').html('Upload');
+                },
+                success:function(data)
+                {
+                  if(data.success){
+                    $modal.modal('hide');
+                    $('#addCategoryModal').modal('show');
+                    $('#category-preview').html('<div class="col-md-3 col-6"><img id="theImg" style="border-radius: 5px;max-width: 100px;" src="'+data.file_name+'" /></div>');
+                    $('#category-preview').append('<input type="hidden"name="category-image" value="'+data.file_name+'" />');
+                    $('upload-btn-txt-2').html('Change Image');
+                  }
+                  else{
+                    alert(data.message);
+                  }
+                
+                },
+                error: function(xhr) { // if error occured
+                    alert("Error occured.please try again");
+                }
+                
+              });
+            };
+          });
+         });
+       
+         $(document).on('click', '#upload_image', function() { 
+          console.log('product');
           canvas = cropper.getCroppedCanvas({
             width:400,
             height:400
@@ -236,17 +380,29 @@ input[type="file"] {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 },
                 data:{image:base64data},
+                beforeSend: function() {
+                  $('#upload_image').prop('disabled', true);
+                  $('#upload_image').html('<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>Loading...');
+                },
+                complete: function() {
+                  $('#upload_image').prop('disabled', false);
+                  $('#upload_image').html('Upload');
+                },
                 success:function(data)
                 {
                   if(data.success){
                     $modal.modal('hide');
-                    $('#image-preview').prepend('<div class="col-md-3 col-6"><img id="theImg" style="border-radius: 5px;max-width: 60px;" src="'+data.file_name+'" /></div>');
+                    $('#image-preview').append('<div class="col-md-3 col-6"><img id="theImg" style="border-radius: 5px;max-width: 100px;" src="'+data.file_name+'" /></div>');
                     $('#image-preview').append('<input type="hidden"name="images[]" value="'+data.file_name+'" />');
+                    $('upload-btn-txt-1').html('Upload More Images');
                   }
                   else{
                     alert(data.message);
                   }
                 
+                },
+                error: function(xhr) { // if error occured
+                    alert("Error occured.please try again");
                 }
                 
               });
@@ -256,5 +412,10 @@ input[type="file"] {
         
       });
       </script>
-  
+
+      <script>
+        function addCategory(){
+          $('#addCategoryModal').modal('show');
+        }
+        </script>
 @endsection
