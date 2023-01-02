@@ -21,7 +21,7 @@
 
     
     <li class="nav-item">
-      <a class="nav-link collapsed" href="pages-error-404.html">
+      <a class="nav-link {{ $route_name == "orders.index" ? '' : 'collapsed' }}" href="{{route('orders.index')}}">
         <i class="bi bi-cart3"></i>
         <span>Orders</span>
       </a>

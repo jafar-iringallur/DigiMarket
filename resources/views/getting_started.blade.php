@@ -466,7 +466,7 @@
           </div>
         </div>
         <div class="modal-footer">
-          <button type="button" id="crop" class="btn btn-primary">Crop</button>
+          <button type="button" id="crop" class="btn btn-primary">Upload</button>
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
         </div>
     </div>
