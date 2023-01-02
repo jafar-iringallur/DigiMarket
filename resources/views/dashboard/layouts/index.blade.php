@@ -62,6 +62,18 @@
           .then(() => beamsClient.addDeviceInterest('hello'))
           .then(() => console.log('Successfully registered and subscribed!'))
           .catch(console.error);
+
+          $( document ).ready(function() {
+                if (!("Notification" in window)) {
+                  // Check if the browser supports notifications
+                  alert("This browser does not support desktop notification");
+                } else if (Notification.permission !== "denied") {
+                  // We need to ask the user for permission
+                  Notification.requestPermission().then((permission) => {
+                  });
+                }
+              
+          });
       </script>
     </body>
     
