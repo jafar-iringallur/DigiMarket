@@ -55,7 +55,7 @@
       <script src="https://js.pusher.com/beams/1.0/push-notifications-cdn.js"></script>
       <script>
         const beamsClient = new PusherPushNotifications.Client({
-          instanceId: "15f3ebf2-27e7-4c73-ae54-9c0818480132",
+          instanceId: "d7d3b299-a6fb-4f1c-ae23-4c831aada781",
         });
       
         beamsClient.start()
