@@ -19,6 +19,8 @@ $businsee_profile = UserBusinessProfile::where('user_id',$user_id)->first();
 <link href="https://unpkg.com/cropperjs/dist/cropper.css" rel="stylesheet"/>
 <script src="https://unpkg.com/dropzone"></script>
 <script src="https://unpkg.com/cropperjs"></script>
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 <style>
 input[type="file"] {
     display: none;
@@ -111,7 +113,7 @@ input[type="file"] {
                   <form class="row g-3">
                      <div class="col-12">
                        <label for="inputNanme4" class="form-label">Name</label>
-                       <input type="text" class="form-control" id="name" name="name">
+                       <input type="text" class="form-control" id="name" name="name" required>
                      </div>
 
                      <div class="col-6">
@@ -126,7 +128,10 @@ input[type="file"] {
                      </div>
                      <div class="col-md-8 col-6">
                        <label for="inputEmail4" class="form-label">Category</label>
-                       <input type="text" class="form-control" id="category_id" name="category_id">
+                       <select class="form-select" id="category_id" name="category_id">
+                         <option>No items</option>
+                       </select>
+                
                      </div>
                      <div class="col-md-4 col-6 pt-3">
     
@@ -138,7 +143,9 @@ input[type="file"] {
                      </div>
                      <div class="col-6">
                        <label for="inputPassword4" class="form-label">Unit</label>
-                       <input type="text" class="form-control" id="unit" name="unit">
+                       <select class="form-select" id="unit" name="unit">
+                        <option value="gm">No items</option>
+                      </select>
                      </div>
                      <div class="col-6">
                        <label for="inputPassword4" class="form-label">Original Price</label>
@@ -217,7 +224,7 @@ input[type="file"] {
             <form class="row g-3" id="categoryForm">
               <div class="col-12">
                 <label for="inputNanme4" class="form-label">Category Name</label>
-                <input type="text" class="form-control" name="category_name" id="inputNanme4" required>
+                <input type="text" class="form-control" name="category_name" id="category_name" required>
               </div>
             
               <div class="col-12">
@@ -235,12 +242,12 @@ input[type="file"] {
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-            <button type="submit" class="btn btn-primary">Add</button>
+            <button type="button" id="add-category-btn" class="btn btn-primary">Add</button>
           </div>
         </div>
       </div>
     </div><!-- End Vertically centered Modal-->
-  <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js'></script>
+  {{-- <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js'></script> --}}
   <script src='https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-beta/js/bootstrap.min.js'></script>
   <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.3/jquery.easing.min.js'></script>
   <script src='https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/12.1.2/js/intlTelInput.js'></script>
@@ -249,7 +256,8 @@ input[type="file"] {
      <script>
 
       $(document).ready(function(){
-      
+        loadCategories();
+        $('#category_id').select2();
         var $modal = $('#modal');
       
         var image = document.getElementById('sample_image');
@@ -343,8 +351,8 @@ input[type="file"] {
                     $modal.modal('hide');
                     $('#addCategoryModal').modal('show');
                     $('#category-preview').html('<div class="col-md-3 col-6"><img id="theImg" style="border-radius: 5px;max-width: 100px;" src="'+data.file_name+'" /></div>');
-                    $('#category-preview').append('<input type="hidden"name="category-image" value="'+data.file_name+'" />');
-                    $('upload-btn-txt-2').html('Change Image');
+                    $('#category-preview').append('<input type="hidden" id="category-image" name="category-image" value="'+data.file_name+'" />');
+                    $('upload-btn-txt-2').text("Change Image");
                   }
                   else{
                     alert(data.message);
@@ -411,11 +419,73 @@ input[type="file"] {
         });
         
       });
-      </script>
 
-      <script>
+      function loadCategories(){
+        $.ajax({
+                url: "{{route('products.get.categories')}}",
+                method:'GET',
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                success:function(data)
+                {
+                  if(data.success){
+                    $("#category_id").html('');
+                    $.each(data.categories, function(key,value){
+                      $("#category_id").append(new Option(value.name, value.id, true, true));
+                    });
+                  }
+                
+                }
+                
+              });
+      }
+    
         function addCategory(){
           $('#addCategoryModal').modal('show');
         }
+        $('#add-category-btn').click(function (){
+          var cat_name = $('#category_name').val();
+          var image = $('#category-image').val();
+          if(cat_name == ''){
+            alert("name require");
+          }
+          else if (image == '' || image == null){
+            alert("image is require");
+          }
+          else{
+            $.ajax({
+                url: "{{route('products.add.category')}}",
+                method:'POST',
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                data:{image: image, name: cat_name},
+                beforeSend: function() {
+                  $('#add-category-btn').prop('disabled', true);
+                  $('#add-category-btn').html('<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>Loading...');
+                },
+                complete: function() {
+                  $('#add-category-btn').prop('disabled', false);
+                  $('#add-category-btn').html('Upload');
+                },
+                success:function(data)
+                {
+                  if(data.success){
+                    loadCategories();
+                    $('#addCategoryModal').modal('hide');
+                  }
+                  else{
+                    alert(data.message);
+                  }
+                
+                },
+                error: function(xhr) { // if error occured
+                    alert("Error occured.please try again");
+                }
+                
+              });
+          }
+        });
         </script>
 @endsection

@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
 use App\Models\Product;
+use App\Models\UserBusinessProfile;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Http\Request;
@@ -116,5 +118,47 @@ class ProductController extends Controller
         }
         // Storage::disk('public')->put($file_name, $data);
       
+    }
+
+    public function getCategories(){
+        $user_id = Auth::user()->id;
+        $businsee_profile = UserBusinessProfile::where('user_id',$user_id)->first();
+        $categories = Category::select('name','id')->where('user_id',$user_id)->where('business_id',$businsee_profile->id)->get()->toArray();
+        return response()->json([
+            'success' => true,
+            'categories' => $categories,
+        ]);
+    }
+
+    public function addCategory(Request $request){
+        $validator = Validator::make($request->all(), [
+            'name' => 'required',
+            'image' => 'required'
+        ]);
+        if ($validator->fails()) {
+            return response()->json([
+                'success' => false,
+                'message' => $validator->errors()->first(),
+            ]);
+        }
+        $user_id = Auth::user()->id;
+        $businsee_profile = UserBusinessProfile::where('user_id',$user_id)->first();
+        $duplicate = Category::where('user_id',$user_id)->where('name',$request->name)->first();
+        if(isset($duplicate->id)){
+            return response()->json([
+                'success' => false,
+                'message' => "category already exist",
+            ]);
+        }
+        $new = new Category();
+        $new->user_id = $user_id;
+        $new->business_id = $businsee_profile->id;
+        $new->name = $request->name;
+        $new->image = $request->image;
+        $new->save();
+        return response()->json([
+            'success' => true,
+            'message' => "category added",
+        ]);
     }
 }
