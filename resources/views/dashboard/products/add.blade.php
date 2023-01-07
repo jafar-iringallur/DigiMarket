@@ -108,6 +108,13 @@ input[type="file"] {
 [type=radio]:checked + img {
   outline: 2px solid #f00;
 }
+
+#size_varient{
+  padding: 0.5vh;
+}
+#size_varient::placeholder {
+    font: 1.5vh sans-serif;
+}
   </style>
      <div class="pagetitle">
        <h1>Add Product</h1>
@@ -137,7 +144,6 @@ input[type="file"] {
                       <select class="form-select" aria-label="Default select" id="Stock" name="in_stock">
                         <option value="1" selected>Yes</option>
                         <option value="0">No</option>
-        
                       </select>
                      </div>
                      <div class="col-6">
@@ -155,12 +161,48 @@ input[type="file"] {
                      </div>
                      <div class="col-6">
                        <label for="inputPassword4" class="form-label">Quantity</label>
-                       <input type="text" class="form-control" id="base_qty" name="base_qty">
+                       <input type="text" class="form-control" id="base_qty" name="base_qty" value="1">
                      </div>
                      <div class="col-6">
                        <label for="inputPassword4" class="form-label">Unit</label>
-                       <select class="form-select" id="unit" name="unit">
-                        <option value="gm">No items</option>
+                       <select class="form-select" id="unit_sel" name="unit">
+                        <option value="piece" selected>piece</option>
+                        <option value="kg">kg</option>
+                        <option value="gm">gm</option>
+                        <option value="ml">ml</option>
+                        <option value="litre">litre</option>
+                        <option value="mm">mm</option>
+                        <option value="ft">ft</option>
+                        <option value="meter">meter</option>
+                        <option value="sq.ft">sq.ft</option>
+                        <option value="sq.meter">sq.meter</option>
+                        <option value="km">km</option>
+                        <option value="set">set</option>
+                        <option value="hour">hour</option>
+                        <option value="day">day</option>
+                        <option value="bunch">bunch</option>
+                        <option value="bundle">bundle</option>
+                        <option value="month">month</option>
+                        <option value="year">year</option>
+                        <option value="service">service</option>
+                        <option value="work">work</option>
+                        <option value="packet">packet</option>
+                        <option value="box">box</option>
+                        <option value="pound">pound</option>
+                        <option value="dozen">dozen</option>
+                        <option value="gunta">gunta</option>
+                        <option value="pair">pair</option>
+                        <option value="minute">minute</option>
+                        <option value="quintal">quintal</option>
+                        <option value="ton">ton</option>
+                        <option value="capsule">capsule</option>
+                        <option value="tablet">tablet</option>
+                        <option value="plate">plate</option>
+                        <option value="inch">inch</option>
+                        <option value="ounce">ounce</option>
+                        <option value="bottle">bottle</option>
+                        <option value="night">night</option>
+                        <option value="tour">tour</option>
                       </select>
                      </div>
                      <div class="col-6">
@@ -184,11 +226,30 @@ input[type="file"] {
                          <label for="file-upload" class="custom-file-upload mt-2">
                             <i class="bi bi-cloud-arrow-up"></i> <span id="upload-btn-txt-1"> Upload Image</span>
                           </label>
-                        <input id="file-upload" type="file" accept="image/*"/>
+                         <input id="file-upload" type="file" accept="image/*"/>
+                      </div>
                      </div>
-                  
+                     <div class="col-12">
+                      <span class="form-label mb-2">Size Varients</span>  
+                     <br>
+                      <table class="table table-borderless" style="margin-bottom: 0px !important" id="">
+                      <tr>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                      </tr>
+                        <tr>
+                              <td><input type="text" class="form-control" id="size_varient" name="size_varient[0]['size']" placeholder="Size"></td>
+                              <td><input type="text" class="form-control" id="size_varient" name="size_varient[0]['original_price']" placeholder="Original Price"></td>
+                              <td><input type="text" class="form-control" id="size_varient" name="size_varient[0]['selling_price']" placeholder="Discout Price"></td>
+                        </tr>
+                      
+                        
+                      </table>
+                      <button type="button" class="btn btn-sm btn-success" onclick="newVarient()" style="position: absolute;right: 0;margin-right: 15px;padding: 1px 3px;margin-bottom: 10px"><i class="bi-plus-circle"></i> Add more</button><br>
+                     </div>
                      <div class="text-center">
-                       <button type="submit" class="btn btn-primary">Add</button>
+                       <button type="submit" class="btn btn-primary" style="width: 90%">Add Product</button>
                       
                      </div>
                    </form>
@@ -272,7 +333,14 @@ input[type="file"] {
 
       $(document).ready(function(){
         loadCategories();
-        $('#category_id').select2();
+        var category_sel = $('#category_id').select2({
+            placeholder: "Select a category"
+        });
+        category_sel.data('select2').$selection.css('height', '34px');
+        var unit_sel = $('#unit_sel').select2({
+            placeholder: "Select a unit"
+        });
+        unit_sel.data('select2').$selection.css('height', '34px');
         var $modal = $('#modal');
       
         var image = document.getElementById('sample_image');
@@ -403,7 +471,7 @@ input[type="file"] {
                 data:{name: cat_name},
                 beforeSend: function() {
                   $('#find-icon-btn').prop('disabled', true);
-                  $('find-icon-btn').html('<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>Loading...');
+                  $('#find-icon-btn').html('<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>Loading...');
                 },
                 complete: function() {
                   $('#find-icon-btn').prop('disabled', false);
@@ -457,7 +525,7 @@ input[type="file"] {
                 },
                 complete: function() {
                   $('#add-category-btn').prop('disabled', false);
-                  $('#add-category-btn').html('Upload');
+                  $('#add-category-btn').html('Add');
                 },
                 success:function(data)
                 {
@@ -477,5 +545,8 @@ input[type="file"] {
               });
           }
         });
+        function newVarient(){
+
+        }
         </script>
 @endsection
