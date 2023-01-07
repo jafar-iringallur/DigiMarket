@@ -92,6 +92,22 @@ input[type="file"] {
 .modal-backdrop.show:nth-of-type(even) {
     z-index: 1051 !important;
 }
+[type=radio] { 
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+/* IMAGE STYLES */
+[type=radio] + img {
+  cursor: pointer;
+}
+
+/* CHECKED STYLES */
+[type=radio]:checked + img {
+  outline: 2px solid #f00;
+}
   </style>
      <div class="pagetitle">
        <h1>Add Product</h1>
@@ -222,20 +238,19 @@ input[type="file"] {
           </div>
           <div class="modal-body">
             <form class="row g-3" id="categoryForm">
-              <div class="col-12">
+              <div class="col-md-8 col-8">
                 <label for="inputNanme4" class="form-label">Category Name</label>
                 <input type="text" class="form-control" name="category_name" id="category_name" required>
               </div>
-            
+              <div class="col-md-4 col-4 pt-3">
+                <button type="button" id="find-icon-btn" class="btn btn-sm btn-primary mt-3" onclick="findIcons()"><i class="bi-search"></i> Find Icons</button>
+              </div>
               <div class="col-12">
-                <span class="form-label mb-2">Image</span><br>
-                <div class="row" id="category-preview">
-                         
+                <span class="form-label mb-2">Select a Icon</span><br>
+                <div class="row" id="category-icon-preview">
+                  <input type="radio" name="cat_icon" value="" style="display: none" checked>
+                       <p style="font-size: 12px">Icon Not found</p> 
                 </div>
-                <label for="category_image" class="custom-file-upload mt-2">
-                  <i class="bi bi-cloud-arrow-up"></i><span id="upload-btn-txt-2"> Upload Image</span>
-                </label>
-                <input type="file" class="form-control" id="category_image" accept="image/*">
               </div>
             
             </form>
@@ -285,27 +300,7 @@ input[type="file"] {
           }
         });
 
-        $('#category_image').change(function(event){
-          $('#image_upload_button').html(' <button type="button" id="upload_category_image" class="btn btn-primary">Upload</button>');
-        
-          var files = event.target.files;
-      
-          var done = function(url){
-            image.src = url;
-            $modal.modal('show');
-            $('#addCategoryModal').modal('hide');
-          };
-      
-          if(files && files.length > 0)
-          {
-            reader = new FileReader();
-            reader.onload = function(event)
-            {
-              done(reader.result);
-            };
-            reader.readAsDataURL(files[0]);
-          }
-        });
+       
       
         $modal.on('shown.bs.modal', function() {
           cropper = new Cropper(image, {
@@ -317,56 +312,7 @@ input[type="file"] {
              cropper = null;
         });
 
-        $(document).on('click', '#upload_category_image', function() { 
-
-          canvas = cropper.getCroppedCanvas({
-            width:400,
-            height:400
-          });
       
-          canvas.toBlob(function(blob){
-            url = URL.createObjectURL(blob);
-            var reader = new FileReader();
-            reader.readAsDataURL(blob);
-            reader.onloadend = function(){
-              var base64data = reader.result;
-              $.ajax({
-                url: "{{route('products.upload.category.image')}}",
-                method:'POST',
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                },
-                data:{image:base64data},
-                beforeSend: function() {
-                  $('#upload_category_image').prop('disabled', true);
-                  $('#upload_category_image').html('<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>Loading...');
-                },
-                complete: function() {
-                  $('#upload_category_image').prop('disabled', false);
-                  $('#upload_category_image').html('Upload');
-                },
-                success:function(data)
-                {
-                  if(data.success){
-                    $modal.modal('hide');
-                    $('#addCategoryModal').modal('show');
-                    $('#category-preview').html('<div class="col-md-3 col-6"><img id="theImg" style="border-radius: 5px;max-width: 100px;" src="'+data.file_name+'" /></div>');
-                    $('#category-preview').append('<input type="hidden" id="category-image" name="category-image" value="'+data.file_name+'" />');
-                    $('upload-btn-txt-2').text("Change Image");
-                  }
-                  else{
-                    alert(data.message);
-                  }
-                
-                },
-                error: function(xhr) { // if error occured
-                    alert("Error occured.please try again");
-                }
-                
-              });
-            };
-          });
-         });
        
          $(document).on('click', '#upload_image', function() { 
           console.log('product');
@@ -444,14 +390,58 @@ input[type="file"] {
         function addCategory(){
           $('#addCategoryModal').modal('show');
         }
-        $('#add-category-btn').click(function (){
+
+        function findIcons(){
           var cat_name = $('#category_name').val();
-          var image = $('#category-image').val();
           if(cat_name == ''){
             alert("name require");
           }
-          else if (image == '' || image == null){
-            alert("image is require");
+          else{
+            $.ajax({
+                url: "{{route('products.find.category.icon')}}",
+                method:'GET',
+                data:{name: cat_name},
+                beforeSend: function() {
+                  $('#find-icon-btn').prop('disabled', true);
+                  $('find-icon-btn').html('<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>Loading...');
+                },
+                complete: function() {
+                  $('#find-icon-btn').prop('disabled', false);
+                  $('#find-icon-btn').html('<i class="bi-search"></i> Find Icons');
+                },
+                success:function(response)
+                {
+                  if(response.success){
+                    $("#category-icon-preview").html('');
+                    $.each(response.data, function(key,value){
+                      $("#category-icon-preview").append(` <div class="col-6 d-flex align-items-center justify-content-center mb-2">
+                       <label>
+                        <input type="radio" name="cat_icon" value="`+value+`">
+                        <img src="`+value+`" alt="Option 1">
+                      </label>
+                       </div>`);
+                    });
+                  }
+                  else{
+                    alert(response.message);
+                  }
+                
+                },
+                error: function(xhr) { // if error occured
+                    alert("Error occured.please try again");
+                }
+                
+              });
+          }
+        }
+        $('#add-category-btn').click(function (){
+          var cat_name = $('#category_name').val();
+          var cat_icon = $('input[name="cat_icon"]:checked').val();
+          if(cat_name == ''){
+            alert("name require");
+          }
+          else if (cat_icon == '' || cat_icon == null){
+            alert("icon is require");
           }
           else{
             $.ajax({
@@ -460,7 +450,7 @@ input[type="file"] {
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 },
-                data:{image: image, name: cat_name},
+                data:{icon: cat_icon, name: cat_name},
                 beforeSend: function() {
                   $('#add-category-btn').prop('disabled', true);
                   $('#add-category-btn').html('<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>Loading...');

@@ -53,29 +53,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.min.js" integrity="sha384-cuYeSxntonz0PPNlHhBs68uyIAVpIIOZZ5JqeqvYYIcEL727kskC66kF92t6Xl2V" crossorigin="anonymous"></script> 
     
       <script src="{{ asset('dashboard/js/main.js') }}"></script>
-      <script src="https://js.pusher.com/beams/1.0/push-notifications-cdn.js"></script>
-      <script>
-        const beamsClient = new PusherPushNotifications.Client({
-          instanceId: "d7d3b299-a6fb-4f1c-ae23-4c831aada781",
-        });
-      
-        beamsClient.start()
-          .then(() => beamsClient.addDeviceInterest('hello'))
-          .then(() => console.log('Successfully registered and subscribed!'))
-          .catch(console.error);
 
-          $( document ).ready(function() {
-                if (!("Notification" in window)) {
-                  // Check if the browser supports notifications
-                  alert("This browser does not support desktop notification");
-                } else if (Notification.permission !== "denied") {
-                  // We need to ask the user for permission
-                  Notification.requestPermission().then((permission) => {
-                  });
-                }
-              
-          });
-      </script>
     </body>
     
     </html>
