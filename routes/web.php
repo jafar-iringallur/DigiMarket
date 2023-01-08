@@ -51,6 +51,7 @@ Route::group(['middleware' => ['GettingStart'],], function () {
         Route::get('/get-category-icons', [App\Http\Controllers\ProductController::class, 'findIcons'])->name('products.find.category.icon');
         Route::get('/get-categories', [App\Http\Controllers\ProductController::class, 'getCategories'])->name('products.get.categories');
         Route::post('/add-category', [App\Http\Controllers\ProductController::class, 'addCategory'])->name('products.add.category');
+        Route::post('/save', [App\Http\Controllers\ProductController::class, 'saveProduct'])->name('product.save');
 
     });
 

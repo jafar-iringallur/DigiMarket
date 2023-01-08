@@ -7,6 +7,7 @@ use App\Models\Product;
 use App\Models\UserBusinessProfile;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Redirect;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
@@ -20,9 +21,19 @@ class ProductController extends Controller
     public function index()
     {
         $user_id = Auth::user()->id;
-        // $products = Product::where('user_id',$user_id)->get();
-    
-        return view('dashboard.products.index',["products" => 'h']);
+        $products = Product::select('products.*','categories.name as category_name')->where('products.user_id',$user_id)->leftJoin('categories','categories.id','products.category_id')->get();
+        $data = [];
+        foreach($products as $product){
+            $images = json_decode($product->image);
+            $data[] = [
+                'name'=> $product->name,
+                'image' => $images[0],
+                'category' => $product->category_name,
+                'price' => $product->selling_price,
+                'stock' => $product->in_stock == "1" ? "Yes" : "No",
+            ];
+        }
+        return view('dashboard.products.index',["products" =>  $data]);
     }
 
     public function addIndex(){
@@ -41,13 +52,7 @@ class ProductController extends Controller
         }
         $user = Auth::user();
         $data = $request->image;
-        // $image_array_1 = explode(";", $data);
-        // $image_array_2 = explode(",", $image_array_1[1]);
-        // $data = base64_decode($image_array_2[1]);
-
-        // $image_name = 'upload/' . time() . '.png';
-
-        // file_put_contents($image_name, $data);
+       
         $file_name       = "product-image/".$user->id.'_'.time(). '_.'.'png';
         $apiURL = 'https://files.botire.in/api/upload-file';
         $postInput = [
@@ -71,7 +76,6 @@ class ProductController extends Controller
                 'message' => "something went wrong",
             ]);
         }
-        // Storage::disk('public')->put($file_name, $data);
       
     }
 
@@ -131,5 +135,39 @@ class ProductController extends Controller
             'success' => true,
             'message' => "category added",
         ]);
+    }
+
+    public function saveProduct(Request $request){
+        $validator = Validator::make($request->all(), [
+            'name' => 'required',
+            'in_stock' => 'required|in:0,1',
+            'category_id' => 'required',
+            'base_qty' => 'required',
+            'unit' => 'required',
+            'original_price' => 'required',
+            'images' => 'required',
+        ]);
+        if ($validator->fails()) {
+            return Redirect::back()->withErrors($validator);
+        }
+
+        $user_id = Auth::user()->id;
+        $businsee_profile = UserBusinessProfile::where('user_id',$user_id)->first();
+
+        $product = new Product();
+        $product->name = $request->name;
+        $product->category_id = $request->category_id;
+        $product->description = $request->description;
+        $product->image = json_encode($request->images);
+        $product->in_stock = $request->in_stock;
+        $product->original_price = $request->original_price;
+        $product->selling_price = $request->selling_price;
+        $product->base_qty = $request->base_qty;
+        $product->unit = $request->unit;
+        $product->size_variants =  json_encode($request->size_varient);
+        $product->user_id = $user_id;
+        $product->business_id = $businsee_profile->id;
+        $product->save();
+        return redirect('/products');
     }
 }
