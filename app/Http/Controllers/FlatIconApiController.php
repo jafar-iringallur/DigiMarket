@@ -63,7 +63,7 @@ class FlatIconApiController extends Controller
             $counter =0;
             foreach($responseBody['data'] as $icon){
                 if($counter<10){
-                    $icons_url[] = $icon['images'][128];
+                    $icons_url[] = $icon['images'][64];
                 }
                 else{
                     break;

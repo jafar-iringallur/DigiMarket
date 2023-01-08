@@ -47,7 +47,8 @@ Route::group(['middleware' => ['GettingStart'],], function () {
         Route::get('/', [App\Http\Controllers\ProductController::class, 'index'])->name('products.index');
         Route::get('/add', [App\Http\Controllers\ProductController::class, 'addIndex'])->name('products.add');
         Route::post('/upload-image', [App\Http\Controllers\ProductController::class, 'uploadImage'])->name('products.upload.image');
-        Route::post('/upload-category-image', [App\Http\Controllers\ProductController::class, 'uploadCategoryImage'])->name('products.upload.category.image');
+     
+        Route::get('/get-category-icons', [App\Http\Controllers\ProductController::class, 'findIcons'])->name('products.find.category.icon');
         Route::get('/get-categories', [App\Http\Controllers\ProductController::class, 'getCategories'])->name('products.get.categories');
         Route::post('/add-category', [App\Http\Controllers\ProductController::class, 'addCategory'])->name('products.add.category');
 
