@@ -61,12 +61,13 @@
                       </tr>
                     </thead>
                     <tbody>
+                      @foreach ($products as $product)
                       <tr>
-                        <th scope="row"><a href="#"><img src="{{asset('dashboard/img/product-1.jpg')}}" alt=""></a></th>
-                        <td><span class="text-primary fw-bold">Ut inventore ipsa voluptas nulla</span></td>
-                        <td>Mobiles</td>
-                        <td class="fw-bold">124</td>
-                        <td>Yes</td>
+                        <th scope="row"><a href="#"><img src="{{$product['image']}}" alt=""></a></th>
+                        <td><span class="text-primary fw-bold">{{$product['name']}}</span></td>
+                        <td>{{$product['category']}}</td>
+                        <td class="fw-bold">{{$product['price']}}</td>
+                        <td>{{$product['stock']}}</td>
                         <td>
                           {{-- <a class="badge bg-success p-2" href="#"><i class="bi bi-pencil pl-1"></i></a>
                          </td> --}}
@@ -84,6 +85,8 @@
                           </div>
                         </td>
                       </tr>
+                      @endforeach
+                     
                     
                     </tbody>
                   </table>
