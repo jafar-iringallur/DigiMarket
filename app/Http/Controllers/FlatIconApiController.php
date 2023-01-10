@@ -41,7 +41,7 @@ class FlatIconApiController extends Controller
         $responseBody = json_decode($response->getBody(), true);
         if(isset($responseBody['data'])){
             $api_credential->access_token = $responseBody['data']['token'];
-            $api_credential->token_expire = Carbon::now()->addSeconds($responseBody['data']['expires']);
+            $api_credential->token_expire = Carbon::now()->addDays(1);
             $api_credential->save();
             return (['success' => true]);
         }
