@@ -52,7 +52,7 @@
                   <table class="table table-borderless">
                     <thead>
                       <tr>
-                        <th scope="col">Preview</th>
+                        <th scope="col">Image</th>
                         <th scope="col">Product</th>
                         <th scope="col">Category</th>
                         <th scope="col">Price</th>
